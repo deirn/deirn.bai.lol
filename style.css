@@ -4,6 +4,10 @@
   font-family: "JetBrains Mono", monospace;
 }
 
+body {
+  margin: 15px;
+}
+
 a {
   color: #000000;
   background-color: #eae2ff;
