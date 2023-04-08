@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$(dirname "$0")"
+
+TIME_YEAR="$(date +%Y)"
+TIME_MONTH="$(date +%m)"
+TIME_DAY="$(date +%d)"
+TIME_HOUR="$(date +%H)"
+TIME_MINUTE="$(date +%M)"
+
+TIME_ISO="$(date --iso-8601=seconds)"
+
+read -p "Title: " TITLE
+if [ -z "$TITLE" ]; then
+    echo "Empty Title"
+    exit 1
+fi
+
+read -p "Author [deirn]: " AUTHOR
+AUTHOR="${AUTHOR:-deirn}"
+
+# make slug lowercase and replace non alpha numeric char with dashes (-)
+SLUG="${TITLE,,}"
+SLUG="$(echo "$SLUG" | sed "s/[^[:alpha:]-]/-/g")"
+
+BLOG_DIR="${SCRIPT_DIR}/../src/blog/${TIME_YEAR}/${TIME_MONTH}"
+BLOG_FILE="${BLOG_DIR}/${TIME_DAY}.${SLUG}.md"
+
+mkdir -p "$BLOG_DIR"
+
+cat <<EOF >"$BLOG_FILE"
+---
+title: ${TITLE}
+author: ${AUTHOR}
+time: ${TIME_ISO}
+tags: []
+---
+
+EOF
+
+echo "Created $(readlink -f "$BLOG_FILE")"
