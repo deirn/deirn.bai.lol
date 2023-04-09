@@ -11,7 +11,7 @@
 	<title>deirn.bai.lol - {data.attr.title}</title>
 </svelte:head>
 
-<Article slug={data.slug}>
+<Article raw="{data.path}/raw">
 	<div class="text-gray-500">
 		{data.attr.author}, {dateFormat(data.attr.time, "yyyy-mm-dd HH:MM")}
 	</div>

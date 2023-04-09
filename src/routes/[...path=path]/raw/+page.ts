@@ -1,4 +1,4 @@
-import { highlight } from "$lib/markdown.js";
+import { countLines, highlight } from "$lib/markdown.js";
 import { error } from "@sveltejs/kit";
 
 export async function load({ params }) {
@@ -12,7 +12,8 @@ export async function load({ params }) {
 			const page = (await pageFiles[pagePath]()) as any;
 			return {
 				source: await highlight("markdown", page.default),
-        path: params.path
+				loc: countLines(page.default),
+				path: params.path
 			};
 		}
 	}

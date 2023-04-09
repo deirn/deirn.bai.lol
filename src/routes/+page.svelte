@@ -6,7 +6,7 @@
 	export let data: PageData;
 </script>
 
-<Article slug="">
+<Article raw="/raw">
 	<Markdown>
 		{@html data.markdown}
 	</Markdown>

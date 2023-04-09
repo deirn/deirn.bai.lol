@@ -16,7 +16,7 @@ export async function load({ params }) {
 
 	return {
 		body: parseMarkdown(blog.body),
-		slug: params.slug,
+		path: `/blog/${params.year}/${params.month}/${params.day}/${params.slug}`,
 		attr: blog.attributes
 	};
 }

@@ -13,8 +13,18 @@ const config = {
 
 	kit: {
 		adapter: adapter({
-			fallback: "404.html"
-		})
+			strict: false
+		}),
+
+		prerender: {
+			entries: ["*", "/404", "/test"]
+		},
+
+		typescript: {
+			config(config) {
+				config.exclude.push("../src/lib/vscode-theme-onelight/**");
+			}
+		}
 	}
 };
 

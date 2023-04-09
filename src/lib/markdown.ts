@@ -35,3 +35,7 @@ export async function parseMarkdown(source: string) {
 export async function highlight(lang: string, code: string) {
 	return (await highlighter).codeToHtml(code, { lang });
 }
+
+export function countLines(str: string) {
+	return str.split(/\r\n|\r|\n/).length;
+}

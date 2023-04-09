@@ -1,10 +1,4 @@
----
-title: Lorem Ipsum
-author: deirn
-time: 1970-01-01T00:00:00.000Z
-tags: []
-hidden: true
----
+# Lorem Ipsum
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sagittis interdum velit rhoncus interdum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed posuere interdum magna at malesuada. Donec a ipsum velit. Praesent luctus arcu sit amet justo dignissim, vitae laoreet mi cursus. Etiam vestibulum hendrerit arcu, at lobortis arcu porta euismod. Cras vitae ligula cursus sapien pulvinar ornare. Pellentesque sit amet facilisis nunc, ullamcorper laoreet eros. In et augue vestibulum, vehicula massa in, accumsan est. Etiam egestas justo sit amet fringilla pellentesque.
 

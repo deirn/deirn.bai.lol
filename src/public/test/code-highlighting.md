@@ -1,10 +1,4 @@
----
-title: Code Highlighting Test
-author: highlight.js
-time: 1970-01-01T00:00:00.000Z
-tags: []
-hidden: true
----
+# Code Highlighting Test
 
 Stolen from <https://highlightjs.org/static/demo/>
 

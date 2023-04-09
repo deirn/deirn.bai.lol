@@ -5,6 +5,6 @@
 	export let data: PageData;
 </script>
 
-<RawMarkdownViewer path="/{data.path}" >
+<RawMarkdownViewer path="/{data.path}" loc={data.loc}>
 	{@html data.source}
 </RawMarkdownViewer>

@@ -1,15 +1,9 @@
----
-title: Markdown Test
-author: John Gruber
-time: 1970-01-01T00:00:00.000Z
-tags: []
-hidden: true
----
+# Markdown Syntax test
 
 **Note:** This document is itself written using Markdown; you
 can [see the source for it by adding '/raw' to the URL][src].
 
-  [src]: ./markdown-test/raw
+  [src]: /test/markdown/raw
 
 * * *
 
