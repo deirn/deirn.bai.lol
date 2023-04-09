@@ -10,8 +10,15 @@
 </svelte:head>
 
 <div class="flex flex-col gap-4">
-	<div class="markdown-raw" style="--padding: {`${loc}`.length}ch;">
-		<slot />
+	<div class="markdown-raw flex overflow-scroll">
+		<div class="scroller flex min-h-full h-fit">
+			<div class="text-right bg-gray-200 text-[#a0a1a7] py-2 px-[1ch] sticky left-0">
+				{#each { length: loc } as _, i}
+					{i + 1}<br />
+				{/each}
+			</div>
+			<slot />
+		</div>
 	</div>
 
 	<div class="flex flex-row-reverse">
@@ -20,18 +27,11 @@
 </div>
 
 <style lang="scss" global="true">
-	.markdown-raw > pre > code {
-		@apply block w-full px-[1ch] py-2 overflow-auto overflow-y-scroll;
-		counter-reset: line 0;
+	.markdown-raw {
 		height: calc(100vh - (1.5rem + 2rem + 3rem));
 
-		span.line {
-			counter-increment: line;
-			&::before {
-				content: counter(line);
-				@apply inline-block text-right mr-[2ch] text-gray-400;
-				width: var(--padding);
-			}
+		pre > code {
+			@apply block my-2 mx-[1ch];
 		}
 	}
 </style>
