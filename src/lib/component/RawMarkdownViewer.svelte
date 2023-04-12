@@ -11,7 +11,7 @@
 
 <div class="flex flex-col gap-4">
 	<div class="markdown-raw flex overflow-scroll">
-		<div class="scroller flex min-h-full h-fit">
+		<div class="scroller flex grow min-h-full h-fit">
 			<div class="text-right bg-gray-200 text-[#a0a1a7] py-2 px-[1ch] sticky left-0">
 				{#each { length: loc } as _, i}
 					{i + 1}<br />
@@ -30,8 +30,12 @@
 	.markdown-raw {
 		height: calc(100vh - (1.5rem + 2rem + 3rem));
 
-		pre > code {
-			@apply block my-2 mx-[1ch];
+		pre.shiki {
+			@apply grow;
+
+			> code {
+				@apply block my-2 mx-[1ch];
+			}
 		}
 	}
 </style>
