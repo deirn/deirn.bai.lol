@@ -1,6 +1,6 @@
 # Hi!
 
-I'm Dimas Firmansyah. I go by the handle deirn online.  
+I'm `Dimas Firmansyah`. I go by the handle deirn online.  
 Currently working on some Minecraft mods.
 
 ## Contact
