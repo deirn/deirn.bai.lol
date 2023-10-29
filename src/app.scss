@@ -1,10 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital@0;1&display=swap");
+@import url('https://fonts.cdnfonts.com/css/latin-modern-math');
 
 /* Write your global styles here, in PostCSS syntax */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-* {
-	font-family: "JetBrains Mono", monospace !important;
+html {
+  font-family: "JetBrains Mono", monospace;
+}
+
+button {
+  @apply bg-indigo-200 px-2 py-1;
 }

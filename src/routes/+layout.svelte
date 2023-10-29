@@ -15,6 +15,7 @@
 		<Link href="/" cls="bg-deirn text-white">deirn.bai.lol</Link>
 		<div class="grow" />
 		<Link href="/blog">blog</Link>
+		<Link href="/tools">tools</Link>
 		<Link href="https://github.com/deirn/deirn.bai.lol">source</Link>
 	</div>
 

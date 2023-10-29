@@ -1,0 +1,11 @@
+{
+  "editor.tabSize": 2,
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "files.associations": {
+    "*.scss": "tailwindcss"
+  },
+  "tailwindCSS.experimental.configFile": "./tailwind.config.cjs",
+  "tailwindCSS.emmetCompletions": true
+}
