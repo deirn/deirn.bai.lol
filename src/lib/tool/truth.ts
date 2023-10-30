@@ -169,9 +169,12 @@ export function solveExpression(expression: string): Result<Map<string, boolean[
     const tape: boolean[] = [];
 
     function popPair() {
+      const rExp = exps.pop()!;
+      const lExp = exps.pop()!;
+
       return {
-        rExp: exps.pop()!,
-        lExp: exps.pop()!,
+        rExp: variables.has(rExp) ? rExp : `(${rExp})`,
+        lExp: variables.has(lExp) ? lExp : `(${lExp})`,
         right: tape.pop()!,
         left: tape.pop()!
       };

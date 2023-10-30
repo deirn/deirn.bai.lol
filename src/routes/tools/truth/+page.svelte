@@ -126,7 +126,7 @@
   </div>
 </div>
 
-<div class="flex mt-4">
+<div class="flex mt-4 overflow-x-auto">
   <div class="grow" />
   <div id="table-container" bind:this={tableContainer} />
   <div class="grow" />
