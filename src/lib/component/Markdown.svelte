@@ -70,6 +70,7 @@
 
 		code {
 			@apply px-[1ch] bg-[#fafafa];
+			font-family: "JetBrains Mono", monospace;
 		}
 
 		pre > code {
