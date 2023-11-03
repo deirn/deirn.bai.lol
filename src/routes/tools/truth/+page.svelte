@@ -10,8 +10,16 @@
   let tableContainer: HTMLDivElement;
 
   const push: MouseEventHandler<HTMLButtonElement> = (e) => {
-    expression.value += e.currentTarget.innerText;
+    const { value, selectionStart } = expression;
+    const before = value.slice(0, selectionStart ?? value.length);
+    const after = value.slice(before.length);
+
+    expression.value = before + e.currentTarget.innerText + after;
     expression.focus();
+
+    if (selectionStart !== null) {
+      expression.setSelectionRange(selectionStart + 1, selectionStart + 1);
+    }
   };
 
   function resetOutput() {
