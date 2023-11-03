@@ -99,6 +99,10 @@
     Implication and Bi-implication doesn't work properly, you need to wrap it with brackets. <br />
     That's a problem for future me.
   </p>
+
+  <noscript>
+    <p><b>This page requires JavaScript to be enabled, duh.</b></p>
+  </noscript>
 </Markdown>
 
 <input
