@@ -111,7 +111,7 @@ function parseExpression(expression: string): Either<Parsed, ExpressionError> {
         break;
 
       case LogicSymbols.OR:
-        if (variable === "" && !lastBracket){
+        if (variable === "" && !lastBracket) {
           return Either.Right({ pos, msg: "Variable or closing bracket expected" });
         }
 
@@ -198,6 +198,15 @@ export function solveExpression(expression: string): Either<SolvedExpression, Ex
     const exps: string[] = [];
     const tape: boolean[] = [];
 
+    function pop() {
+      const exp = exps.pop()!;
+
+      return {
+        exp: variables.has(exp) ? exp : `(${exp})`,
+        note: tape.pop()!
+      };
+    }
+
     function popPair() {
       const rExp = exps.pop()!;
       const lExp = exps.pop()!;
@@ -227,7 +236,8 @@ export function solveExpression(expression: string): Either<SolvedExpression, Ex
         case "nop":
           break;
         case "not":
-          push(`${LogicSymbols.NOT}${exps.pop()!}`, !tape.pop());
+          const { exp, note } = pop();
+          push(`${LogicSymbols.NOT}${exp}`, !note);
           break;
 
         case "and": {
