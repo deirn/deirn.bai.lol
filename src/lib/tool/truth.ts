@@ -158,6 +158,10 @@ export function solveExpression(expression: string): Result<Map<string, boolean[
     let div = 2;
     for (const variable of variables) {
       const mod = size / div;
+
+      if (!result.has(variable)) result.set(variable, []);
+      result.get(variable)!.push(val[j]);
+
       values.set(variable, val[j]);
 
       if (i % mod === 0) val[j] = !val[j];
