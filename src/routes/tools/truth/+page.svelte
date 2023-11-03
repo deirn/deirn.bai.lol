@@ -4,38 +4,22 @@
   import type { MouseEventHandler } from "svelte/elements";
   import { onMount } from "svelte";
 
-  let expression: HTMLDivElement;
+  let expression: HTMLInputElement;
   let tableContainer: HTMLDivElement;
 
-  let first = true;
-
   const push: MouseEventHandler<HTMLButtonElement> = (e) => {
-    expression.innerText += e.currentTarget.innerText;
-
-    if (first) {
-      expression.innerText = expression.innerText.trim();
-    }
-
-    first = false;
+    expression.value += e.currentTarget.innerText;
+    expression.focus();
   };
 
   function reset() {
-    expression.innerHTML = "&nbsp;";
+    expression.value = "";
     tableContainer.innerHTML = "";
-    first = true;
-  }
-
-  function backspace() {
-    if (expression.innerText.length <= 1) {
-      expression.innerHTML = "&nbsp;";
-      first = true;
-    } else {
-      expression.innerText = expression.innerText.substring(0, expression.innerText.length - 1);
-    }
+    expression.focus();
   }
 
   function generate() {
-    const exp = expression.innerText.trim();
+    const exp = expression.value.trim();
     const result = solveExpression(exp);
 
     if (result.success) {
@@ -68,8 +52,7 @@
     const history = localStorage.getItem("truth/expression");
 
     if (history !== null && history !== "") {
-      expression.innerText = history;
-      first = false;
+      expression.value = history;
       generate();
     }
   });
@@ -86,24 +69,15 @@
   </p>
 </Markdown>
 
-<div
-  id="expression"
+<input
+  type="text"
+  name="expression"
+  id="expression-2"
   class="text-2xl font-bold font-math text-center my-4 bg-white"
   bind:this={expression}
->
-  &nbsp;
-</div>
+/>
 
 <div class="flex flex-col gap-2">
-  <div class="flex gap-2">
-    <div class="grow" />
-    <button class="w-10" on:click={push}>P</button>
-    <button class="w-10" on:click={push}>Q</button>
-    <button class="w-10" on:click={push}>R</button>
-    <button class="w-10" on:click={push}>S</button>
-    <div class="grow" />
-  </div>
-
   <div class="flex gap-2">
     <div class="grow" />
     <button class="w-10" on:click={push}>{LogicSymbols.LEFT_BRACKET}</button>
@@ -119,9 +93,8 @@
 
   <div class="flex gap-2">
     <div class="grow" />
-    <button on:click={generate}>Generate</button>
-    <button on:click={backspace}>Backspace</button>
-    <button on:click={reset}>Reset</button>
+    <button class="bg-green-300" on:click={generate}>Generate</button>
+    <button class="bg-red-300" on:click={reset}>Reset</button>
     <div class="grow" />
   </div>
 </div>
