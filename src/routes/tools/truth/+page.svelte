@@ -5,6 +5,7 @@
   import { onMount } from "svelte";
 
   let expression: HTMLInputElement;
+  let errorContainer: HTMLDivElement;
   let tableContainer: HTMLDivElement;
 
   const push: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -12,17 +13,25 @@
     expression.focus();
   };
 
-  function reset() {
-    expression.value = "";
+  function resetOutput() {
+    errorContainer.innerHTML = "";
     tableContainer.innerHTML = "";
+    errorContainer.classList.add("hidden");
+  }
+
+  function reset() {
+    resetOutput();
+    expression.value = "";
     expression.focus();
   }
 
   function generate() {
+    resetOutput();
+
     const exp = expression.value.trim();
     const result = solveExpression(exp);
 
-    if (result.success) {
+    if (result.left) {
       const table = document.createElement("table");
       const head = table.createTHead().insertRow();
       const body = table.createTBody();
@@ -40,11 +49,34 @@
         }
       }
 
-      tableContainer.innerHTML = "";
       tableContainer.append(table);
       localStorage.setItem("truth/expression", exp);
     } else {
-      console.log(result.error);
+      const { pos, msg } = result.val;
+
+      const errExp = document.createElement("div");
+
+      errExp.classList.add("expression");
+
+      const before = exp.substring(0, pos - 1);
+      errExp.appendChild(document.createTextNode(before));
+
+      const error = document.createElement("span");
+      error.classList.add("error");
+      error.innerText = exp[pos - 1];
+      errExp.appendChild(error);
+
+      const after = exp.substring(pos, exp.length);
+      errExp.appendChild(document.createTextNode(after));
+
+      errorContainer.appendChild(errExp);
+
+      const errMsg = document.createElement("div");
+      errMsg.innerText = msg;
+      errorContainer.appendChild(errMsg);
+
+      errorContainer.classList.remove("hidden");
+      expression.focus();
     }
   }
 
@@ -72,7 +104,7 @@
 <input
   type="text"
   name="expression"
-  id="expression-2"
+  id="expression"
   class="text-2xl font-bold font-math text-center my-4 bg-white"
   bind:this={expression}
 />
@@ -99,6 +131,16 @@
   </div>
 </div>
 
+<div class="flex">
+  <div class="flex-grow" />
+  <div
+    class="mt-4 px-2 py-1 hidden text-xs text-center"
+    id="error-container"
+    bind:this={errorContainer}
+  />
+  <div class="flex-grow" />
+</div>
+
 <div class="flex mt-4 overflow-x-auto">
   <div class="grow" />
   <div id="table-container" bind:this={tableContainer} />
@@ -106,6 +148,16 @@
 </div>
 
 <style lang="scss" global="true">
+  #error-container {
+    .expression {
+      @apply font-math text-2xl;
+
+      .error {
+        @apply text-red-500 font-bold;
+      }
+    }
+  }
+
   #table-container table {
     @apply border-collapse;
 
