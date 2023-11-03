@@ -1,8 +1,9 @@
 <script lang="ts">
+  import { page } from "$app/stores";
   import Markdown from "$lib/component/Markdown.svelte";
   import { LogicSymbols, solveExpression } from "$lib/tool/truth";
-  import type { MouseEventHandler } from "svelte/elements";
   import { onMount } from "svelte";
+  import type { MouseEventHandler } from "svelte/elements";
 
   let expression: HTMLInputElement;
   let errorContainer: HTMLDivElement;
@@ -51,6 +52,8 @@
 
       tableContainer.append(table);
       localStorage.setItem("truth/expression", exp);
+      $page.url.searchParams.set("q", encodeURIComponent(exp));
+      window.history.replaceState({ path: $page.url.toString() }, "", $page.url);
     } else {
       const { pos, msg } = result.val;
 
@@ -81,9 +84,13 @@
   }
 
   onMount(() => {
+    const query = $page.url.searchParams.get("q");
     const history = localStorage.getItem("truth/expression");
 
-    if (history !== null && history !== "") {
+    if (query) {
+      expression.value = decodeURIComponent(query);
+      generate();
+    } else if (history !== null && history !== "") {
       expression.value = history;
       generate();
     }
