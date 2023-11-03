@@ -6,6 +6,10 @@
 	export let data: PageData;
 </script>
 
+<svelte:head>
+	<title>deirn.bai.lol - /{data.path}</title>
+</svelte:head>
+
 <Article raw="/{data.path}/raw">
 	<Markdown>
 		{@html data.markdown}
