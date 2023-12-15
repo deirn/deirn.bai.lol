@@ -40,7 +40,7 @@
     const exp = expression.value.trim();
     const result = solveExpression(exp);
 
-    if (result.left) {
+    if (result.success) {
       const table = document.createElement("table");
       const head = table.createTHead().insertRow();
       const body = table.createTBody();
@@ -63,7 +63,7 @@
       $page.url.searchParams.set("q", encodeURIComponent(exp));
       window.history.replaceState({ path: $page.url.toString() }, "", $page.url);
     } else {
-      const { pos, msg } = result.val;
+      const { pos, msg } = result.error;
 
       const errExp = document.createElement("div");
 
@@ -131,8 +131,8 @@
 <div class="flex flex-col gap-2">
   <div class="flex gap-2">
     <div class="grow" />
-    <button class="w-10" on:click={push}>{LogicSymbols.LEFT_BRACKET}</button>
-    <button class="w-10" on:click={push}>{LogicSymbols.RIGHT_BRACKET}</button>
+    <button class="w-10" on:click={push}>{"("}</button>
+    <button class="w-10" on:click={push}>{")"}</button>
 
     <button class="w-10" on:click={push}>{LogicSymbols.NOT}</button>
     <button class="w-10" on:click={push}>{LogicSymbols.AND}</button>

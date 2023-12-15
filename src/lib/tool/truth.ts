@@ -1,8 +1,7 @@
-import { Either, Result } from "../result";
+import { Result } from "../result";
+import { parseExpression, type ExpressionError, type Op, type ParserCallback } from "./notation";
 
 export enum LogicSymbols {
-  LEFT_BRACKET = "(",
-  RIGHT_BRACKET = ")",
   NOT = "\u00AC",
   AND = "\u2227",
   OR = "\u2228",
@@ -10,166 +9,92 @@ export enum LogicSymbols {
   BIIMPLICATION = "\u21D4"
 }
 
-type Unary = {
+type LogicOp = UnaryOp | BinaryOp;
+
+type UnaryOp = Op & {
   type: "nop" | "not";
   variable: string;
 };
 
-type Binary = {
+type BinaryOp = Op & {
   type: "and" | "or" | "if" | "only";
-  left: Operation;
-  right: Operation;
+  left: LogicOp;
+  right: LogicOp;
 };
-
-type Operation = Unary | Binary;
-type OperationType = Operation["type"];
-
-type Notation = (OperationType | (string & {}))[];
-
-type Parsed = {
-  variables: Set<string>;
-  notation: Notation;
-};
-
-type NestedOperation = {
-  bracket: boolean;
-  ops: OperationType[];
-};
-
-export type ExpressionError = {
-  pos: number;
-  msg: string;
-};
-
-function parseExpression(expression: string): Either<Parsed, ExpressionError> {
-  const ops: NestedOperation[] = [{ bracket: false, ops: [] }];
-  const variables = new Set<string>();
-  const notation: Notation = [];
-
-  let variable = "";
-  let lastBracket = false;
-  let bracketCount = 0;
-  let lastBracketPos = 0;
-
-  function finishVariable() {
-    if (variable === "") return;
-    notation.push(variable);
-    variables.add(variable);
-    variable = "";
-  }
-
-  function finishOperation() {
-    let op;
-    while ((op = ops.at(-1)!.ops.pop()) !== undefined) {
-      notation.push(op);
-    }
-  }
-
-  for (let pos = 1; pos <= expression.length; pos++) {
-    const char = expression[pos - 1];
-
-    switch (char) {
-      case LogicSymbols.LEFT_BRACKET:
-        finishVariable();
-        ops.push({ bracket: true, ops: [] });
-        bracketCount++;
-        lastBracketPos = pos;
-        break;
-
-      case LogicSymbols.RIGHT_BRACKET:
-        if (bracketCount <= 0) {
-          return Either.Right({ pos, msg: "Missing opening bracket" });
-        }
-
-        while (ops.at(-1)?.bracket === false) {
-          finishVariable();
-          finishOperation();
-          ops.pop();
-        }
-
-        finishVariable();
-        finishOperation();
-        ops.pop();
-
-        bracketCount--;
-        lastBracket = true;
-        break;
-
-      case LogicSymbols.NOT:
-        finishVariable();
-        ops.at(-1)!.ops.push("not");
-        break;
-
-      case LogicSymbols.AND:
-        if (variable === "" && !lastBracket) {
-          return Either.Right({ pos, msg: "Variable or closing bracket expected" });
-        }
-
-        finishVariable();
-        finishOperation();
-        ops.at(-1)!.ops.push("and");
-        break;
-
-      case LogicSymbols.OR:
-        if (variable === "" && !lastBracket) {
-          return Either.Right({ pos, msg: "Variable or closing bracket expected" });
-        }
-
-        finishVariable();
-        finishOperation();
-        ops.at(-1)!.ops.push("or");
-        break;
-
-      case LogicSymbols.IMPLICATION:
-        if (variable === "" && !lastBracket) {
-          return Either.Right({ pos, msg: "Variable or closing bracket expected" });
-        }
-
-        finishVariable();
-        ops.at(-1)!.ops.push("if");
-        ops.push({ bracket: false, ops: [] });
-        break;
-
-      case LogicSymbols.BIIMPLICATION:
-        if (variable === "" && !lastBracket) {
-          return Either.Right({ pos, msg: "Variable or closing bracket expected" });
-        }
-
-        finishVariable();
-        ops.at(-1)!.ops.push("only");
-        ops.push({ bracket: false, ops: [] });
-        break;
-      default:
-        if (!char.match(/[A-Za-z]/)) {
-          return Either.Right({ pos, msg: `Illegal character "${char}"` });
-        }
-
-        variable += char;
-    }
-  }
-
-  if (bracketCount > 0) {
-    return Either.Right({ pos: lastBracketPos, msg: "Missing closing bracket" });
-  }
-
-  while (ops.at(-1)?.bracket === false) {
-    finishVariable();
-    finishOperation();
-    ops.pop();
-  }
-
-  if (notation.length === 0) {
-    return Either.Right({ pos: 0, msg: "Empty expression" });
-  }
-
-  return Either.Left({ variables, notation });
-}
 
 export type SolvedExpression = Map<string, boolean[]>;
 
-export function solveExpression(expression: string): Either<SolvedExpression, ExpressionError> {
-  const parsed = parseExpression(expression);
-  if (parsed.right) return parsed;
+const parserCallback: ParserCallback<LogicOp> = (
+  char,
+  pos,
+  variable,
+  lastBracket,
+  ops,
+  finishVariable,
+  finishOperation
+) => {
+  switch (char) {
+    case LogicSymbols.NOT: {
+      finishVariable();
+      ops.seek().push("not");
+      break;
+    }
+
+    case LogicSymbols.AND: {
+      if (variable === "" && !lastBracket) {
+        return Result.Error({ pos, msg: "Variable or closing bracket expected" });
+      }
+
+      finishVariable();
+      finishOperation();
+      ops.seek().push("and");
+      break;
+    }
+
+    case LogicSymbols.OR: {
+      if (variable === "" && !lastBracket) {
+        return Result.Error({ pos, msg: "Variable or closing bracket expected" });
+      }
+
+      finishVariable();
+      finishOperation();
+      ops.seek().push("or");
+      break;
+    }
+
+    case LogicSymbols.IMPLICATION: {
+      if (variable === "" && !lastBracket) {
+        return Result.Error({ pos, msg: "Variable or closing bracket expected" });
+      }
+
+      finishVariable();
+      ops.seek().push("if");
+      ops.push(false);
+      break;
+    }
+
+    case LogicSymbols.BIIMPLICATION: {
+      if (variable === "" && !lastBracket) {
+        return Result.Error({ pos, msg: "Variable or closing bracket expected" });
+      }
+
+      finishVariable();
+      ops.seek().push("only");
+      ops.push(false);
+      break;
+    }
+
+    default: {
+      return Result.Ok(false);
+    }
+  }
+
+  return Result.Ok(true);
+};
+
+export function solveExpression(expression: string): Result<SolvedExpression, ExpressionError> {
+  const parsed = parseExpression(expression, parserCallback);
+  if (!parsed.success) return parsed;
 
   const { variables, notation } = parsed.val;
   const size = Math.pow(2, variables.size);
@@ -271,5 +196,5 @@ export function solveExpression(expression: string): Either<SolvedExpression, Ex
     }
   }
 
-  return Either.Left(result);
+  return Result.Ok(result);
 }

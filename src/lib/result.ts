@@ -1,4 +1,4 @@
-export type Result<T> = Result.Ok<T> | Result.Error;
+export type Result<T, E> = Result.Ok<T> | Result.Error<E>;
 
 export namespace Result {
   export type Ok<T> = {
@@ -6,16 +6,16 @@ export namespace Result {
     val: T;
   };
 
-  export type Error = {
+  export type Error<E> = {
     success: false;
-    error: string;
+    error: E;
   };
 
   export function Ok<T>(val: T): Ok<T> {
     return { success: true, val };
   }
 
-  export function Error(error: string): Error {
+  export function Error<E>(error: E): Error<E> {
     return { success: false, error };
   }
 }
