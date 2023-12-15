@@ -161,8 +161,8 @@ export function solveExpression(
       case "symm": {
         const { rExp, lExp, right, left } = popPair();
         const intersection = left.filter((it) => right.includes(it));
-        const leftDiff = left.filter((it) => intersection.includes(it));
-        const rightDiff = right.filter((it) => intersection.includes(it));
+        const leftDiff = left.filter((it) => !intersection.includes(it));
+        const rightDiff = right.filter((it) => !intersection.includes(it));
         push(`${lExp}${SetSymbols.SYMMETRIC_DIFFERENCE}${rExp}`, [...leftDiff, ...rightDiff]);
         break;
       }
