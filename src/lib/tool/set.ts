@@ -60,7 +60,7 @@ const parserCallback: ParserCallback<SetOp> = (
   }
 
   finishVariable();
-  if (char !== SetSymbols.PRODUCT) finishOperation();
+  if (char !== SetSymbols.PRODUCT && char !== SetSymbols.COMPLEMENT) finishOperation();
 
   ops.seek().push(symbol2Op.get(char)!);
   if (char === SetSymbols.PRODUCT) ops.push(false);
@@ -116,7 +116,6 @@ export function solveExpression(
   }
 
   function push(exp: string, val: string[]) {
-    console.log(exp);
     if (!sets.has(exp)) result.set(exp, new Set(val.sort()));
     exps.push(exp);
     tape.push(val);
@@ -161,10 +160,10 @@ export function solveExpression(
 
       case "symm": {
         const { rExp, lExp, right, left } = popPair();
-        const intersection = left.filter(right.includes);
+        const intersection = left.filter((it) => right.includes(it));
         const leftDiff = left.filter((it) => intersection.includes(it));
         const rightDiff = right.filter((it) => intersection.includes(it));
-        push(`${lExp}${SetSymbols.UNION}${rExp}`, [...leftDiff, ...rightDiff]);
+        push(`${lExp}${SetSymbols.SYMMETRIC_DIFFERENCE}${rExp}`, [...leftDiff, ...rightDiff]);
         break;
       }
 
