@@ -60,9 +60,10 @@ const parserCallback: ParserCallback<SetOp> = (
   }
 
   finishVariable();
-  finishOperation();
+  if (char !== SetSymbols.PRODUCT) finishOperation();
 
   ops.seek().push(symbol2Op.get(char)!);
+  if (char === SetSymbols.PRODUCT) ops.push(false);
   return Result.Ok(true);
 };
 
@@ -115,6 +116,7 @@ export function solveExpression(
   }
 
   function push(exp: string, val: string[]) {
+    console.log(exp);
     if (!sets.has(exp)) result.set(exp, new Set(val.sort()));
     exps.push(exp);
     tape.push(val);
@@ -141,7 +143,10 @@ export function solveExpression(
 
       case "inter": {
         const { rExp, lExp, right, left } = popPair();
-        push(`${lExp}${SetSymbols.INTERSECTION}${rExp}`, left.filter(right.includes));
+        push(
+          `${lExp}${SetSymbols.INTERSECTION}${rExp}`,
+          left.filter((it) => right.includes(it))
+        );
         break;
       }
 
@@ -173,7 +178,8 @@ export function solveExpression(
           }
         }
 
-        push(`${lExp}${SetSymbols.INTERSECTION}${rExp}`, prod);
+        push(`${lExp}${SetSymbols.PRODUCT}${rExp}`, prod);
+        break;
       }
 
       default: {
