@@ -14,9 +14,9 @@
 	<div class="flex gap-[1ch] bg-[#eee7ea]">
 		<Link href="/" cls="bg-deirn text-white">deirn.bai.lol</Link>
 		<div class="grow" />
-		<Link href="/blog">blog</Link>
+		<Link href="/blog">ramblings</Link>
+		<Link href="/projects">projects</Link>
 		<Link href="/tools">tools</Link>
-		<Link href="https://github.com/deirn/deirn.bai.lol">source</Link>
 	</div>
 
 	<div class="flex flex-col grow">

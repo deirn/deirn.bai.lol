@@ -1,4 +1,4 @@
-<div class="markdown">
+<div class="markdown grow relative">
 	<slot />
 </div>
 
