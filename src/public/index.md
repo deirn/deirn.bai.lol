@@ -1,3 +1,7 @@
+---
+hideRawText: true
+---
+
 # Hi!
 
 I'm `Dimas Firmansyah`. I go by the handle deirn online.  
