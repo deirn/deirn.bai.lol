@@ -15,7 +15,7 @@ export async function load({ params }) {
 	const blog = frontMatter<BlogAttr>(markdown.default);
 
 	return {
-		body: parseMarkdown(blog.body),
+		body: await parseMarkdown(blog.body),
 		path: `/blog/${params.year}/${params.month}/${params.day}/${params.slug}`,
 		attr: blog.attributes
 	};

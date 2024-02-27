@@ -6,7 +6,7 @@ export async function load() {
   const markdown = frontMatter<MarkdownAttr>(source);
 
   return {
-    markdown: parseMarkdown(markdown.body),
+    markdown: await parseMarkdown(markdown.body),
     attributes: markdown.attributes,
   };
 }
