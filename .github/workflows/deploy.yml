@@ -5,7 +5,13 @@ on:
       - master
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -18,8 +24,7 @@ jobs:
       - run: |
           pnpm install
           pnpm run build
-      - uses: stefanzweifel/git-auto-commit-action@e040c596f0a65570b339c60818081175bcf82d11
+      - uses: actions/upload-pages-artifact@v3
         with:
-          commit_message: deploy ${{ github.sha }}
-          branch: gh-pages
-          repository: ./build
+          path: ./build
+      - uses: actions/deploy-pages@v4
