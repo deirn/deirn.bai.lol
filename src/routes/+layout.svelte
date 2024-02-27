@@ -10,7 +10,7 @@
 	<title>deirn.bai.lol - {data.route.id}</title>
 </svelte:head>
 
-<div class="mx-auto flex min-h-screen max-w-5xl flex-col p-3 gap-4">
+<div class="mx-auto flex min-h-screen max-w-5xl flex-col p-3 gap-4 relative">
 	<div class="flex gap-[1ch] bg-[#eee7ea]">
 		<Link href="/" cls="bg-deirn text-white">deirn.bai.lol</Link>
 		<div class="grow" />

@@ -2,7 +2,7 @@
 	export let grow = true;
 </script>
 
-<div class="markdown relative" class:grow={grow}>
+<div class="markdown" class:grow={grow}>
 	<slot />
 </div>
 
