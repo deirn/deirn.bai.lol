@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - master
+
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -14,7 +18,8 @@ jobs:
       - run: |
           pnpm install
           pnpm run build
-      - uses: peaceiris/actions-gh-pages@4eb285e828117bca26638192c3ed309c622e7bad
+      - uses: stefanzweifel/git-auto-commit-action@e040c596f0a65570b339c60818081175bcf82d11
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          commit_message: deploy ${{ github.sha }}
+          branch: gh-pages
+          repository: ./build
