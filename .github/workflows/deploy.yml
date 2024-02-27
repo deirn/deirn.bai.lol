@@ -7,14 +7,14 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with: 
           submodules: true
-      - uses: asdf-vm/actions/install@v2
+      - uses: asdf-vm/actions/install@6278efebb38ae025cc91dd008910f549e775a8c8
       - run: |
           pnpm install
           pnpm run build
-      - uses: peaceiris/actions-gh-pages@v3
+      - uses: peaceiris/actions-gh-pages@4eb285e828117bca26638192c3ed309c622e7bad
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
