@@ -136,7 +136,7 @@
   });
 </script>
 
-<Markdown grow={false}>
+<Markdown>
   <h1>Set Operators Solver</h1>
 
   <noscript>

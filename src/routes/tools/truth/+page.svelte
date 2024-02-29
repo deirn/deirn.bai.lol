@@ -105,7 +105,7 @@
   });
 </script>
 
-<Markdown grow={false}>
+<Markdown>
   <h1>Truth Table Generator</h1>
 
   <noscript>

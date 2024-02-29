@@ -1,8 +1,4 @@
-<script lang="ts">
-	export let grow = true;
-</script>
-
-<div class="markdown" class:grow={grow}>
+<div class="markdown">
 	<slot />
 </div>
 
