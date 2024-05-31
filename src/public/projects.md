@@ -71,14 +71,30 @@ This very website, nothing else to add.
 
 ---
 
+### b2-worker
+
+<span style="background-color: #e36002aa;">hono</span>
+<span style="background-color: #f48527aa;">cloudflare-worker</span>
+<span style="background-color: #2f74c0aa;">typescript</span>
+<span style="background-color: #e8d44daa;">javascript</span>
+
+A frontend/proxy for private Backblaze B2 storage using Cloudflare Workers.    
+Used for Maven Repository for my mods.
+
+[source](https://github.com/badasintended/b2-worker)
+[demo](https://maven4.bai.lol)
+
+---
+
 ### PBW1-Final
 
 <span style="background-color: #7277adaa;">php</span>
 <span style="background-color: #e8d44daa;">javascript</span>
+<span style="background-color: #0865a7aa;">jquery</span>
 
 A social media app in vanilla PHP. Made for completing web dev lecture on my university.
 
-[source](https://github.com/deirn/pbw1-final)
+[source](https://github.com/dimas-firmansyah/pbw1-final)
 
 ---
 
@@ -87,10 +103,11 @@ A social media app in vanilla PHP. Made for completing web dev lecture on my uni
 <span style="background-color: #e74122aa;">codeigniter</span>
 <span style="background-color: #7277adaa;">php</span>
 <span style="background-color: #e8d44daa;">javascript</span>
+<span style="background-color: #0865a7aa;">jquery</span>
 
 A redo of PBW1-Final with CodeIgniter 4.
 
-[source](https://github.com/deirn/pbw2-final)
+[source](https://github.com/dimas-firmansyah/pbw2-final)
 
 --- 
 
